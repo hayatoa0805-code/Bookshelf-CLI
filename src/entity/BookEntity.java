@@ -3,13 +3,15 @@ package entity;
 public class BookEntity {
 	private static int nextId = 1;
 	private int id;
+	private int userId;
 	private String title;
 	private String volume;
 	private String publisher;
 	private String author;
-	
-	public BookEntity(String title,String volume, String publisher, String author) {
+
+	public BookEntity(int userId, String title, String volume, String publisher, String author) {
 		this.id = nextId++;
+		this.userId = userId;
 		this.title = title;
 		this.volume = volume;
 		this.publisher = publisher;
@@ -18,6 +20,10 @@ public class BookEntity {
 
 	public int getId() {
 		return id;
+	}
+
+	public int getUserId() {
+		return userId;
 	}
 
 	public String getTitle() {
