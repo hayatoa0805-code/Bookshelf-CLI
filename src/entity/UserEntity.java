@@ -12,11 +12,11 @@ public class UserEntity {
 	private OffsetDateTime deleted_at;
 	private boolean isActive;
 
-	public UserEntity(String name, String email, String password) {
+	public UserEntity(String name, String email, String passwordHash) {
 		this.id = nextId++;
 		this.name = name;
 		this.email = email;
-		this.passwordHash = password;
+		this.passwordHash = passwordHash;
 		this.isActive = true;
 	}
 
