@@ -42,6 +42,10 @@ public class BookEntity {
 		return author;
 	}
 
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
