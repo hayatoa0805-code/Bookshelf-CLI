@@ -28,6 +28,21 @@ public class BookRepository {
 		return result;
 	}
 
+	public void update(int userId, int bookId, String title, String volume, String publisher, String aurhor) {
+		for (BookEntity book : books) {
+			if (book.getUserId() == userId &&
+					book.getId() == bookId) {
+
+				book.setTitle(title);
+				book.setVolume(volume);
+				book.setPublisher(publisher);
+				book.setAuthor(aurhor);
+
+				return;
+			}
+		}
+	}
+
 	// ユーザー自身が登録してる本をタイトルで検索
 	public List<BookEntity> findByTitle(int userId, String title) {
 		List<BookEntity> result = new ArrayList<>();
