@@ -8,10 +8,12 @@ import repository.BookRepository;
 public class BookService {
 	private BookRepository bookRepository;
 
+	// コンストラクタでBookRepositoryを受け取る
 	public BookService(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
 	}
 
+	// 本の取得
 	public BookEntity getBook(int userId, int bookId) {
 		return bookRepository.getBook(userId, bookId);
 	}
@@ -21,10 +23,12 @@ public class BookService {
 		bookRepository.save(userId, book);
 	}
 
+	// 本の詳細情報を取得
 	public BookEntity findByUserIdAndBookId(int userId, int bookId) {
 		return bookRepository.findByUserIdAndBookId(userId, bookId);
 	}
 
+	// 本の情報を編集
 	public void edit(int userId, int bookId, String title, String volume, String publisher, String author) {
 		bookRepository.edit(userId, bookId, title, volume, publisher, author);
 	}
