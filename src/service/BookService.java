@@ -12,13 +12,21 @@ public class BookService {
 		this.bookRepository = bookRepository;
 	}
 
+	public BookEntity getBook(int userId, int bookId) {
+		return bookRepository.getBook(userId, bookId);
+	}
+
 	// 本の登録
 	public void registerBook(int userId, BookEntity book) {
 		bookRepository.save(userId, book);
 	}
 
-	public void update(int userId, int bookId, String title, String volume, String publisher, String author) {
-		bookRepository.update(userId, bookId, title, volume, publisher, author);
+	public BookEntity findByUserIdAndBookId(int userId, int bookId) {
+		return bookRepository.findByUserIdAndBookId(userId, bookId);
+	}
+
+	public void edit(int userId, int bookId, String title, String volume, String publisher, String author) {
+		bookRepository.edit(userId, bookId, title, volume, publisher, author);
 	}
 
 	// ユーザー自身の本の一覧を取得
