@@ -10,7 +10,8 @@ public class UserRepository {
 	private List<UserEntity> users = new ArrayList<UserEntity>();
 
 	// ユーザー登録
-	public void save(UserEntity user) {
+	public void register(UserEntity user) {
+		user.setId(users.size() + 1); // IDを自動で設定
 		users.add(user);
 	}
 
@@ -26,8 +27,8 @@ public class UserRepository {
 	}
 
 	// ユーザー削除
-	public void delete(UserEntity user) {
-		users.remove(user);
+	public void delete(int userId) {
+		users.removeIf(user -> user.getId() == userId);
 	}
 
 }
