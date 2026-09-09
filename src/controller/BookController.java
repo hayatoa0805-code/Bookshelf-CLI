@@ -13,14 +13,19 @@ public class BookController {
 		this.bookService = bookService;
 	}
 
+	// ViewのdetailBook
+	public BookEntity getBook(int userId, int bookId) {
+		return bookService.getBook(userId, bookId);
+	}
+
 	// 本の登録
 	public void registerBook(int userId, BookEntity book) {
 		bookService.registerBook(userId, book);
 	}
 
 	// 本の編集
-	public void update(int userId, int bookId, String title, String volume, String publisher, String author) {
-		bookService.update(userId, bookId, title, volume, publisher, author);
+	public void edit(int userId, int bookId, String title, String volume, String publisher, String author) {
+		bookService.edit(userId, bookId, title, volume, publisher, author);
 	}
 
 	// ユーザー自身の登録してる本の一覧を取得
