@@ -15,7 +15,7 @@ public class UserRepository {
 		users.add(user);
 	}
 
-	// 　メールアドレスからユーザーを登録
+	// 　メールアドレスからユーザーを取得
 	public UserEntity findByEmail(String email) {
 		for (UserEntity user : users) {
 			if (user.getEmail().equals(email)) {
