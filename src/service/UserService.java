@@ -25,6 +25,21 @@ public class UserService {
 		userRepository.register(user);
 	}
 
+	// ログイン処理
+	public UserEntity login(String email, String password) {
+		UserEntity user = userRepository.findByEmail(email);
+
+		if (user == null) {
+			throw new IllegalArgumentException("メールアドレスまたはパスワードが間違っています。");
+		}
+
+		if (!user.getPasswordHash().equals(password)) {
+			throw new IllegalArgumentException("メールアドレスまたはパスワードが間違っています。");
+		}
+
+		return user;
+	}
+
 	// メールアドレスからユーザーを取得
 	public UserEntity findByEmail(String email) {
 		return userRepository.findByEmail(email);

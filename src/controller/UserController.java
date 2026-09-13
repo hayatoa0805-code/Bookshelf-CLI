@@ -16,6 +16,11 @@ public class UserController {
 		userService.register(user);
 	}
 
+	// ログイン処理
+	public UserEntity login(String email, String password) {
+		return userService.login(email, password);
+	}
+
 	// メールアドレスからユーザーを取得
 	public UserEntity findByEmail(String email) {
 		return userService.findByEmail(email);
