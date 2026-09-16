@@ -3,12 +3,19 @@ package view;
 import java.util.Scanner;
 
 public class Menu {
-	static Scanner scan = new Scanner(System.in);
+	private Scanner scan;
+
+	public Menu(Scanner scan) {
+		this.scan = scan;
+	}
+
+	// アプリ起動して、最初に表示するメニュー
 	String[] mainMenu = {
-			"本の管理",
 			"ユーザー管理",
+			"本の管理",
 	};
 
+	// book機能のメニュー
 	String[] bookMenu = {
 			"本の一覧表示",
 			"本の検索",
@@ -18,27 +25,49 @@ public class Menu {
 	};
 
 	public int mainMenu() {
-		for (int i = 0; i < 2; i++) {
-			System.out.println((i + 1) + ". " + new Menu().mainMenu[i]);
-		}
 
-		System.out.println();
 		while (true) {
+			System.out.println("===メインメニュー===");
+			for (int i = 0; i < 2; i++) {
+				System.out.println((i + 1) + ". " + mainMenu[i]);
+			}
+			System.out.println();
+			System.out.println("0. アプリ終了");
 			System.out.print("選択してください：");
-			int num = scan.nextInt();
-			return num;
+
+			String num = scan.nextLine();
+
+			int choice = inputCheck(num);
+
+			if (0 <= choice && choice <= mainMenu.length) {
+				return choice;
+			}
+
 		}
 	}
 
-	public int bookMenu() {
+	public String bookMenu() {
 		for (int i = 0; i < 5; i++) {
-			System.out.println((i + 1) + ". " + new Menu().bookMenu[i]);
+			System.out.println((i + 1) + ". " + bookMenu[i]);
 		}
+		return returnMenu();
+	}
+
+	public int inputCheck(String input) {
+		try {
+			return Integer.parseInt(input);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	public String returnMenu() {
 		System.out.println();
-		System.out.println("0. メニューに戻る");
+		System.out.println("0. 戻る");
 		System.out.print("選択してください：");
-		int num = scan.nextInt();
-		return num;
+		String input = scan.nextLine();
+
+		return input;
 	}
 
 }
