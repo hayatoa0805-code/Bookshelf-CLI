@@ -105,7 +105,7 @@ public class UserView {
 
 	// 本の削除
 	public int inputDeleteUser(int userId) {
-		System.out.println("アカウントを削除しますか？[y/n]");
+		System.out.print("アカウントを削除しますか？[y/n]:");
 		String input = scan.nextLine();
 		if ("y".equals(input)) {
 			return userId;
@@ -190,11 +190,14 @@ public class UserView {
 				System.out.println();
 
 				break;
+
+			default:
+				System.out.println("正しい番号を入力してください。");
 			}
 		}
 	}
 
-	// User希望のCLi操作
+	// User機能のCLI操作
 	public void showUserMenu() {
 		while (true) {
 
@@ -229,6 +232,7 @@ public class UserView {
 				if (userId != -1) {
 					userController.delete(userId);
 					loginUser = null;
+					isLogin = false;
 					System.out.println("アカウントを削除しました。");
 					System.out.println();
 					return;
