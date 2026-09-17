@@ -11,7 +11,7 @@ public class UserRepository {
 
 	// ユーザー登録
 	public void register(UserEntity user) {
-		user.setId(users.size() + 1); // IDを自動で設定
+		user.setUserId(users.size() + 1); // IDを自動で設定
 		users.add(user);
 	}
 
