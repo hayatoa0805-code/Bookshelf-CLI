@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-//import db.DatabaseConnection;
 import controller.BookController;
 import controller.UserController;
 import repository.BookRepository;
@@ -14,6 +13,7 @@ import view.UserView;
 public class Main {
 
 	public static void main(String[] args) {
+
 		boolean isBoot = true;
 
 		Scanner scan = new Scanner(System.in);
@@ -42,7 +42,7 @@ public class Main {
 			// ログイン後
 			while (userView.getLoginUser() != null) {
 
-				int userId = userView.getLoginUser().getId();
+				int userId = userView.getLoginUser().getUserId();
 
 				BookView bookView = new BookView(
 						scan,
