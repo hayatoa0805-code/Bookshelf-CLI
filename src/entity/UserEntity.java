@@ -3,7 +3,6 @@ package entity;
 import java.time.OffsetDateTime;
 
 public class UserEntity {
-	private static int nextId = 1;
 	private int id;
 	private String name;
 	private String email;
@@ -12,19 +11,19 @@ public class UserEntity {
 	private OffsetDateTime deleted_at;
 	private boolean isActive;
 
+	public UserEntity() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
 	public UserEntity(String name, String email, String passwordHash) {
-		this.id = nextId++;
+
 		this.name = name;
 		this.email = email;
 		this.passwordHash = passwordHash;
 		this.isActive = true;
 	}
 
-	public static int getNextId() {
-		return nextId;
-	}
-
-	public int getId() {
+	public int getUserId() {
 		return id;
 	}
 
@@ -52,12 +51,31 @@ public class UserEntity {
 		return isActive;
 	}
 
-	public UserEntity() {
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
-
 	public void setUserId(int userId) {
 		this.id = userId;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
+
+	public void setCreated_at(OffsetDateTime created_at) {
+		this.created_at = created_at;
+	}
+
+	public void setDeleted_at(OffsetDateTime deleted_at) {
+		this.deleted_at = deleted_at;
+	}
+
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 }
