@@ -224,7 +224,7 @@ public class UserView {
 					return;
 				}
 
-				int userId = inputDeleteUser(loginUser.getId());
+				int userId = inputDeleteUser(loginUser.getUserId());
 
 				if (userId != -1) {
 					userController.delete(userId);
