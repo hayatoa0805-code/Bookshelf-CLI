@@ -37,10 +37,13 @@ public class UserView {
 
 	// ログインに関する表示
 	public int loginMenu() {
+		System.out.println("==ログインメニュー==");
 		for (int i = 0; i < loginMenu.length; i++) {
 			System.out.println((i + 1) + ". " + loginMenu[i]);
 		}
-		String input = menu.returnMenu();
+		System.out.println();
+		System.out.print("ログイン方法を選んでください：");
+		String input = scan.nextLine();
 		return menu.inputCheck(input);
 	}
 
