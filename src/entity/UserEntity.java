@@ -52,4 +52,12 @@ public class UserEntity {
 		return isActive;
 	}
 
+	public UserEntity() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+	public void setUserId(int userId) {
+		this.id = userId;
+	}
+
 }
