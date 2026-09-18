@@ -104,13 +104,23 @@ public class UserView {
 	}
 
 	// 本の削除
-	public int inputDeleteUser(int userId) {
-		System.out.print("アカウントを削除しますか？[y/n]:");
-		String input = scan.nextLine();
-		if ("y".equals(input)) {
-			return userId;
+	public int inputDeleteUserId(int userId) {
+
+		while (true) {
+
+			System.out.print("アカウントを削除しますか？[y/n]:");
+			String input = scan.nextLine().trim().toLowerCase();
+
+			if ("y".equals(input)) {
+				return userId;
+			}
+
+			if ("n".equals(input)) {
+				return -1;
+			}
+
+			System.out.println("yまたはnを入力してください。");
 		}
-		return -1;
 	}
 
 	// ユーザーIdを入力
@@ -242,7 +252,7 @@ public class UserView {
 					return;
 				}
 
-				int userId = inputDeleteUser(loginUser.getUserId());
+				int userId = inputDeleteUserId(loginUser.getUserId());
 
 				if (userId != -1) {
 					userController.delete(userId);
