@@ -115,30 +115,45 @@ public class UserView {
 
 	// ユーザーIdを入力
 	public int inputUserId() {
-		System.out.print("ユーザーIDを入力してください：");
-		int userId = scan.nextInt();
-		scan.nextLine();
+		String input = "";
+		int userId = -1;
+
+		while (userId == -1) {
+			System.out.print("ユーザーIDを入力してください：");
+			input = scan.nextLine();
+			userId = menu.inputCheck(input);
+		}
+
 		return userId;
 	}
 
 	// ユーザーネームを入力
 	public String inputUserName() {
-		System.out.print("ユーザーネームを入力してください：");
-		String userName = scan.nextLine();
+		String userName = "";
+		while (userName.isBlank()) {
+			System.out.print("ユーザーネームを入力してください：");
+			userName = scan.nextLine();
+		}
 		return userName;
 	}
 
 	// メールアドレスを入力
 	public String inputEmail() {
-		System.out.print("メールアドレスを入力してください：");
-		String email = scan.nextLine();
+		String email = "";
+		while (email.isBlank()) {
+			System.out.print("メールアドレスを入力してください：");
+			email = scan.nextLine();
+		}
 		return email;
 	}
 
 	// パスワードを入力
 	public String inputPassword() {
-		System.out.print("パスワードを入力してください：");
-		String password = scan.nextLine();
+		String password = "";
+		while (password.isBlank()) {
+			System.out.print("パスワードを入力してください：");
+			password = scan.nextLine();
+		}
 		return password;
 	}
 
