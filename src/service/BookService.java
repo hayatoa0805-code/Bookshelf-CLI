@@ -13,14 +13,9 @@ public class BookService {
 		this.bookRepository = bookRepository;
 	}
 
-	// 本の取得
-	public BookEntity getBook(int userId, int bookId) {
-		return bookRepository.getBook(userId, bookId);
-	}
-
 	// 本の登録
 	public void registerBook(int userId, BookEntity book) {
-		bookRepository.save(userId, book);
+		bookRepository.regiserBook(userId, book);
 	}
 
 	// 本の詳細情報を取得
@@ -28,29 +23,44 @@ public class BookService {
 		return bookRepository.findByUserIdAndBookId(userId, bookId);
 	}
 
-	// 本の情報を編集
-	public void edit(int userId, int bookId, String title, String volume, String publisher, String author) {
-		bookRepository.edit(userId, bookId, title, volume, publisher, author);
+	// ユーザー自身が登録してる本のタイトルを編集
+	public void editTitle(int userId, int bookId, String title) {
+		bookRepository.editTitle(userId, bookId, title);
+	}
+
+	// ユーザー自身が登録してる本の巻数を編集
+	public void editVolume(int userId, int bookId, String volume) {
+		bookRepository.editVolume(userId, bookId, volume);
+	}
+
+	// ユーザー自身が登録してる本の出版社を編集
+	public void editPublisher(int userId, int bookId, String publisher) {
+		bookRepository.editPublisher(userId, bookId, publisher);
+	}
+
+	// ユーザー自身が登録してる本の著者を編集
+	public void editAuthor(int userId, int bookId, String author) {
+		bookRepository.editAuthor(userId, bookId, author);
 	}
 
 	// ユーザー自身の本の一覧を取得
-	public List<BookEntity> getBooks(int userId) {
+	public List<BookEntity> findByUserId(int userId) {
 		return bookRepository.findByUserId(userId);
 	}
 
 	// タイトル検索
 	public List<BookEntity> searchByTitle(int userId, String title) {
-		return bookRepository.findByTitle(userId, title);
+		return bookRepository.searchByTitle(userId, title);
 	}
 
 	// 出版社検索
 	public List<BookEntity> searchByPublisher(int userId, String publisher) {
-		return bookRepository.findByPublisher(userId, publisher);
+		return bookRepository.searchByPublisher(userId, publisher);
 	}
 
 	// 著者検索
 	public List<BookEntity> searchByAuthor(int userId, String author) {
-		return bookRepository.findByAuthor(userId, author);
+		return bookRepository.searchByAuthor(userId, author);
 	}
 
 	// 本の削除
