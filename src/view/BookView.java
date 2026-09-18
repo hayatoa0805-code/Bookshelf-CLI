@@ -315,43 +315,75 @@ public class BookView {
 
 	// 編集する本のIDを入力
 	public int inputEditBookId() {
-		System.out.print("編集する本のIDを入力してください：");
-		int bookId = Integer.parseInt(scan.nextLine());
+		int bookId = -1;
+		while (bookId <= 0) {
+			System.out.print("編集する本のIDを入力してください：");
+			String input = scan.nextLine();
+			bookId = menu.inputCheck(input);
+		}
 		return bookId;
 	}
 
 	// タイトル入力
 	public String inputTitle() {
-		System.out.print("タイトルを入力してください：");
-		String title = scan.nextLine();
+
+		String title = "";
+
+		while (title.isBlank()) {
+			System.out.print("タイトルを入力してください：");
+			title = scan.nextLine();
+		}
+
 		return title;
 	}
 
 	// 本の巻数を入力
 	public String inputVolume() {
-		System.out.print("巻数を入力してください：");
-		String volume = scan.nextLine();
+
+		String volume = "";
+
+		while (volume.isBlank()) {
+			System.out.print("巻数を入力してください：");
+			volume = scan.nextLine();
+		}
+
 		return volume;
 	}
 
 	// 出版社入力
 	public String inputPublisher() {
-		System.out.print("出版社を入力してください：");
-		String publisher = scan.nextLine();
+
+		String publisher = "";
+
+		while (publisher.isBlank()) {
+			System.out.print("出版社を入力してください：");
+			publisher = scan.nextLine();
+		}
+
 		return publisher;
 	}
 
 	// 著者を入力
 	public String inputAuthor() {
-		System.out.print("著者を入力してください");
-		String author = scan.nextLine();
+
+		String author = "";
+
+		while (author.isBlank()) {
+			System.out.print("著者を入力してください：");
+			author = scan.nextLine();
+		}
+
 		return author;
 	}
 
 	// 削除する本のIDを入力
 	public int inputDeleteBookId() {
-		System.out.print("削除する本のIDを入力してください：");
-		int bookId = Integer.parseInt(scan.nextLine());
+		int bookId = -1;
+		while (bookId <= 0) {
+			System.out.print("削除する本のIDを入力してください：");
+			String input = scan.nextLine();
+			bookId = menu.inputCheck(input);
+		}
 		return bookId;
 	}
 }
