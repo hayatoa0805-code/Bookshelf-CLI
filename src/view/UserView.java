@@ -104,41 +104,66 @@ public class UserView {
 	}
 
 	// 本の削除
-	public int inputDeleteUser(int userId) {
-		System.out.print("アカウントを削除しますか？[y/n]:");
-		String input = scan.nextLine();
-		if ("y".equals(input)) {
-			return userId;
+	public int inputDeleteUserId(int userId) {
+
+		while (true) {
+
+			System.out.print("アカウントを削除しますか？[y/n]:");
+			String input = scan.nextLine().trim().toLowerCase();
+
+			if ("y".equals(input)) {
+				return userId;
+			}
+
+			if ("n".equals(input)) {
+				return -1;
+			}
+
+			System.out.println("yまたはnを入力してください。");
 		}
-		return -1;
 	}
 
 	// ユーザーIdを入力
 	public int inputUserId() {
-		System.out.print("ユーザーIDを入力してください：");
-		int userId = scan.nextInt();
-		scan.nextLine();
+		String input = "";
+		int userId = -1;
+
+		while (userId == -1) {
+			System.out.print("ユーザーIDを入力してください：");
+			input = scan.nextLine();
+			userId = menu.inputCheck(input);
+		}
+
 		return userId;
 	}
 
 	// ユーザーネームを入力
 	public String inputUserName() {
-		System.out.print("ユーザーネームを入力してください：");
-		String userName = scan.nextLine();
+		String userName = "";
+		while (userName.isBlank()) {
+			System.out.print("ユーザーネームを入力してください：");
+			userName = scan.nextLine();
+		}
 		return userName;
 	}
 
 	// メールアドレスを入力
 	public String inputEmail() {
-		System.out.print("メールアドレスを入力してください：");
-		String email = scan.nextLine();
+		String email = "";
+		while (email.isBlank()) {
+			System.out.print("メールアドレスを入力してください：");
+			email = scan.nextLine();
+		}
 		return email;
 	}
 
 	// パスワードを入力
 	public String inputPassword() {
-		System.out.print("パスワードを入力してください：");
-		String password = scan.nextLine();
+		String password = "";
+		while (password.isBlank()) {
+			System.out.print("パスワードを入力してください：");
+			password = scan.nextLine();
+		}
 		return password;
 	}
 
@@ -227,7 +252,7 @@ public class UserView {
 					return;
 				}
 
-				int userId = inputDeleteUser(loginUser.getUserId());
+				int userId = inputDeleteUserId(loginUser.getUserId());
 
 				if (userId != -1) {
 					userController.delete(userId);
