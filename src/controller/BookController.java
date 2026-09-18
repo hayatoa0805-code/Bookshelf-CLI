@@ -14,8 +14,8 @@ public class BookController {
 	}
 
 	// ViewのdetailBook
-	public BookEntity getBook(int userId, int bookId) {
-		return bookService.getBook(userId, bookId);
+	public BookEntity findByUserIdAndBookId(int userId, int bookId) {
+		return bookService.findByUserIdAndBookId(userId, bookId);
 	}
 
 	// 本の登録
@@ -23,14 +23,29 @@ public class BookController {
 		bookService.registerBook(userId, book);
 	}
 
-	// 本の編集
-	public void edit(int userId, int bookId, String title, String volume, String publisher, String author) {
-		bookService.edit(userId, bookId, title, volume, publisher, author);
+	// ユーザー自身が登録してる本のタイトルを編集
+	public void editTitle(int userId, int bookId, String title) {
+		bookService.editTitle(userId, bookId, title);
+	}
+
+	// ユーザー自身が登録してる本の巻数を編集
+	public void editVolume(int userId, int bookId, String volume) {
+		bookService.editVolume(userId, bookId, volume);
+	}
+
+	// ユーザー自身が登録してる本の出版社を編集
+	public void editPublisher(int userId, int bookId, String publisher) {
+		bookService.editPublisher(userId, bookId, publisher);
+	}
+
+	// ユーザー自身が登録してる本の著者を編集
+	public void editAuthor(int userId, int bookId, String author) {
+		bookService.editAuthor(userId, bookId, author);
 	}
 
 	// ユーザー自身の登録してる本の一覧を取得
-	public List<BookEntity> getBooks(int userId) {
-		return bookService.getBooks(userId);
+	public List<BookEntity> findByUserId(int userId) {
+		return bookService.findByUserId(userId);
 	}
 
 	// ユーザー自身が登録してる本をタイトルで検索
