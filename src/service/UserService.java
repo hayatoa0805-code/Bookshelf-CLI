@@ -2,13 +2,18 @@ package service;
 
 import entity.UserEntity;
 import repository.UserRepository;
+import util.PasswordHasher;
 
 public class UserService {
 	private UserRepository userRepository;
+	private PasswordHasher passwordHasher;
 
 	// コンストラクタでUserRepositoryを受け取る
-	public UserService(UserRepository userRepository) {
+	public UserService(
+			UserRepository userRepository,
+			PasswordHasher passwordHasher) {
 		this.userRepository = userRepository;
+		this.passwordHasher = passwordHasher;
 	}
 
 	// ユーザーの登録
@@ -22,6 +27,10 @@ public class UserService {
 					"このメールアドレスはすでに登録されています。");
 		}
 
+		// パスワードをハッシュ化
+		String hashedPassword = passwordHasher.hash(user.getPasswordHash());
+		user.setPasswordHash(hashedPassword);
+
 		userRepository.register(user);
 	}
 
@@ -33,7 +42,7 @@ public class UserService {
 			throw new IllegalArgumentException("メールアドレスまたはパスワードが間違っています。");
 		}
 
-		if (!user.getPasswordHash().equals(password)) {
+		if (!passwordHasher.verify(password, user.getPasswordHash())) {
 			throw new IllegalArgumentException("メールアドレスまたはパスワードが間違っています。");
 		}
 
