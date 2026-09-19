@@ -1,5 +1,6 @@
 package util;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -39,5 +40,37 @@ public class PasswordHasher {
 		} finally {
 			spec.clearPassword();
 		}
+	}
+
+	public boolean verify(String password, String storedHash) {
+
+		// 保存されてる「ソルト:ハッシュ値」を分離
+		String[] parts = storedHash.split(":");
+
+		if (parts.length != 2) {
+			return false;
+		}
+
+		byte[] salt = Base64.getDecoder().decode(parts[0]);
+		byte[] expectedHash = Base64.getDecoder().decode(parts[1]);
+
+		PBEKeySpec spec = new PBEKeySpec(
+				password.toCharArray(),
+				salt,
+				ITERATIONS,
+				KEY_LENGTH);
+
+		try {
+			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+
+			byte[] actualHash = factory.generateSecret(spec).getEncoded();
+
+			return MessageDigest.isEqual(actualHash, expectedHash);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new IllegalStateException("パスワードの検証に失敗しました。", e);
+		} finally {
+			spec.clearPassword();
+		}
+
 	}
 }

@@ -6,6 +6,7 @@ import repository.BookRepository;
 import repository.UserRepository;
 import service.BookService;
 import service.UserService;
+import util.PasswordHasher;
 import view.BookView;
 import view.Menu;
 import view.UserView;
@@ -17,15 +18,14 @@ public class Main {
 		boolean isBoot = true;
 
 		Scanner scan = new Scanner(System.in);
+		PasswordHasher passwordhasher = new PasswordHasher();
 
 		// User
-		//		UserEntity userEntity = new UserEntity();
 		UserRepository userRepository = new UserRepository();
-		UserService userService = new UserService(userRepository);
+		UserService userService = new UserService(userRepository, passwordhasher);
 		UserController userController = new UserController(userService);
 
 		// Book
-		//		BookEntity bookEntity = new BookEntity();
 		BookRepository bookRepository = new BookRepository();
 		BookService bookService = new BookService(bookRepository);
 		BookController bookController = new BookController(bookService);
