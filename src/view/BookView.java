@@ -165,7 +165,6 @@ public class BookView {
 		// 本の編集
 		case 4:
 			int editBookId = inputEditBookId();
-			BookEntity editBook = bookController.findByUserIdAndBookId(userId, editBookId);
 
 			// 編集する項目を選択
 			int editItem = editBookView();
@@ -300,7 +299,7 @@ public class BookView {
 
 		return new BookEntity(
 				userId,
-				title,
+				userId, userId, title,
 				volume,
 				publisher,
 				author);
