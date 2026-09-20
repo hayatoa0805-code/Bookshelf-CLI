@@ -1,0 +1,16 @@
+CREATE TABLE books(
+	id BIGINT PRIMARY KEY,
+	user_id BIGINT NOT NULL,
+	book_id BIGINT NOT NULL,
+	title VARCHAR(255) NOT NULL,
+	volume VARCHAR(100) NOT NULL,
+	publisher VARCHAR(100) NOT NULL,
+	author VARCHAR(100) NOT NULL,
+	
+	created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+	update_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+	deleted_at TIMESTAMPTZ NULL,
+	
+	FOREIGN KEY(user_id) REFERENCES users(id),
+	UNIQUE (user_id,book_id)
+);
