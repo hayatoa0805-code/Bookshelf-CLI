@@ -88,8 +88,12 @@ public class UserRepository {
 	public void delete(int userId) {
 
 		String sql = """
-				DELETE FROM users
+				UPDATE users
+				SET
+				    is_active = false,
+				    deleted_at = now()
 				WHERE id = ?
+				AND is_active = true
 				""";
 
 		try (
@@ -97,12 +101,11 @@ public class UserRepository {
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 
 			statement.setInt(1, userId);
-
 			statement.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
