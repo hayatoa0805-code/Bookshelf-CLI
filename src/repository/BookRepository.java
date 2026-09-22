@@ -16,29 +16,31 @@ public class BookRepository {
 	public void registerBook(int userId, BookEntity book) {
 
 		String sql = """
-				INSERT INTO books(user_id, book_id, title, volume, publisher, author)
-				VALUES(?, ?, ?, ?, ?, ?)
+				INSERT INTO books(user_id, title, volume, publisher, author)
+				VALUES(?, ?, ?, ?, ?)
+				RETURNING id, book_id
 				""";
 
 		try (
 				Connection connection = DatabaseConnection.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
-						sql,
-						java.sql.Statement.RETURN_GENERATED_KEYS)) {
+						sql)) {
 
 			statement.setInt(1, userId);
-			statement.setInt(2, book.getBookId());
-			statement.setString(3, book.getTitle());
-			statement.setString(4, book.getVolume());
-			statement.setString(5, book.getPublisher());
-			statement.setString(6, book.getAuthor());
+			statement.setString(2, book.getTitle());
+			statement.setString(3, book.getVolume());
+			statement.setString(4, book.getPublisher());
+			statement.setString(5, book.getAuthor());
 
-			statement.executeUpdate();
+			try (ResultSet resultSet = statement.executeQuery()) {
 
-			try (java.sql.ResultSet resultSet = statement.getGeneratedKeys()) {
 				if (resultSet.next()) {
-					int id = resultSet.getInt(1);
+
+					int id = resultSet.getInt("id");
+					int bookId = resultSet.getInt("book_id");
+
 					book.setId(id);
+					book.setBookId(bookId);
 				}
 			}
 
