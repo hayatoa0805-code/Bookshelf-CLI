@@ -166,45 +166,46 @@ public class BookView {
 		case 4:
 			int editBookId = inputEditBookId();
 
-			// 編集する項目を選択
-			int editItem = editBookView();
+			while (true) {
+				// 編集する項目を選択
+				int editItem = editBookView();
 
-			switch (editItem) {
-			// タイトル
-			case 1: {
-				String title = inputTitle();
-				bookController.editTitle(userId, editBookId, title);
-				break;
-			}
-			// 巻数
-			case 2: {
-				String volume = inputVolume();
-				bookController.editVolume(userId, editBookId, volume);
-				break;
-			}
-			// 出版社
-			case 3: {
-				String publisher = inputPublisher();
-				bookController.editPublisher(userId, editBookId, publisher);
-				break;
-			}
-			// 著者
-			case 4: {
-				String author = inputAuthor();
-				bookController.editAuthor(userId, editBookId, author);
-				break;
+				switch (editItem) {
+				// タイトル
+				case 1: {
+					String title = inputTitle();
+					bookController.editTitle(userId, editBookId, title);
+					break;
+				}
+				// 巻数
+				case 2: {
+					String volume = inputVolume();
+					bookController.editVolume(userId, editBookId, volume);
+					break;
+				}
+				// 出版社
+				case 3: {
+					String publisher = inputPublisher();
+					bookController.editPublisher(userId, editBookId, publisher);
+					break;
+				}
+				// 著者
+				case 4: {
+					String author = inputAuthor();
+					bookController.editAuthor(userId, editBookId, author);
+					break;
+				}
+
+				case 0:
+					return;
+
+				default:
+					System.out.println("正しい番号を入力してください。");
+				}
+
 			}
 
-			case 0:
-				return;
-
-			default:
-				System.out.println("正しい番号を入力してください。");
-			}
-
-			break;
-
-		//　本の削除
+			//　本の削除
 		case 5:
 			int deleteBookId = inputDeleteBookId();
 
@@ -255,7 +256,7 @@ public class BookView {
 		// 本が登録されている場合
 		System.out.println();
 		for (BookEntity book : books) {
-			System.out.println("ID：" + book.getId() + "　タイトル：" + book.getTitle());
+			System.out.println("ID：" + book.getBookId() + "　タイトル：" + book.getTitle());
 		}
 		System.out.println();
 		System.out.println("=======================");
