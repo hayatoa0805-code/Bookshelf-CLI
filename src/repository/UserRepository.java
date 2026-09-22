@@ -50,7 +50,6 @@ public class UserRepository {
 				SELECT id, display_name, email, password_hash, created_at, deleted_at, is_active
 				FROM users
 				WHERE email = ?
-				AND is_active = true
 				""";
 
 		try (

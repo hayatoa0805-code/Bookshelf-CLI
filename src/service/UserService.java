@@ -36,14 +36,23 @@ public class UserService {
 
 	// ログイン処理
 	public UserEntity login(String email, String password) {
+
 		UserEntity user = userRepository.findByEmail(email);
 
 		if (user == null) {
-			throw new IllegalArgumentException("メールアドレスまたはパスワードが間違っています。");
+			throw new IllegalArgumentException(
+					"メールアドレスまたはパスワードが間違っています。");
+		}
+
+		// アカウントが無効か確認
+		if (!user.isActive()) {
+			throw new IllegalArgumentException(
+					"このアカウントは現在ログインできません。");
 		}
 
 		if (!passwordHasher.verify(password, user.getPasswordHash())) {
-			throw new IllegalArgumentException("メールアドレスまたはパスワードが間違っています。");
+			throw new IllegalArgumentException(
+					"メールアドレスまたはパスワードが間違っています。");
 		}
 
 		return user;
