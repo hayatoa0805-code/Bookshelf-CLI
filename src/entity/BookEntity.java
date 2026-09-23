@@ -3,6 +3,7 @@ package entity;
 public class BookEntity {
 	private int id;
 	private int userId;
+	private int bookId;
 	private String title;
 	private String volume;
 	private String publisher;
@@ -12,23 +13,28 @@ public class BookEntity {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
 
+	// idなし
 	public BookEntity(
 			int userId,
+			int bookId,
 			String title,
 			String volume,
 			String publisher,
 			String author) {
 
 		this.userId = userId;
+		this.bookId = bookId;
 		this.title = title;
 		this.volume = volume;
 		this.publisher = publisher;
 		this.author = author;
 	}
 
+	// idあり
 	public BookEntity(
 			int id,
 			int userId,
+			int bookId,
 			String title,
 			String volume,
 			String publisher,
@@ -36,6 +42,7 @@ public class BookEntity {
 
 		this.id = id;
 		this.userId = userId;
+		this.bookId = bookId;
 		this.title = title;
 		this.volume = volume;
 		this.publisher = publisher;
@@ -48,6 +55,10 @@ public class BookEntity {
 
 	public int getUserId() {
 		return userId;
+	}
+
+	public int getBookId() {
+		return bookId;
 	}
 
 	public String getTitle() {
@@ -66,8 +77,12 @@ public class BookEntity {
 		return author;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public void setBookId(int bookId) {
-		this.id = bookId;
+		this.bookId = bookId;
 	}
 
 	public void setUserId(int userId) {

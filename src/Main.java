@@ -48,7 +48,6 @@ public class Main {
 						scan,
 						menu,
 						bookController,
-						bookRepository,
 						userId);
 
 				int choice = menu.mainMenu();

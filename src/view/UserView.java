@@ -17,19 +17,22 @@ public class UserView {
 	private UserEntity loginUser;
 
 	// ログイン方法
-	String[] loginMenu = {
+	String[] loginItems = {
 			"新規登録",
 			"ログイン"
 	};
 
 	// user機能のメニュー
-	String[] userMenu = {
+	String[] userItems = {
 			"ログアウト",
 			"削除",
 	};
 
 	// コンストラクタ
-	public UserView(Scanner scan, Menu menu, UserController userController) {
+	public UserView(
+			Scanner scan,
+			Menu menu,
+			UserController userController) {
 		this.scan = scan;
 		this.menu = menu;
 		this.userController = userController;
@@ -38,8 +41,8 @@ public class UserView {
 	// ログインに関する表示
 	public int loginMenu() {
 		System.out.println("==ログインメニュー==");
-		for (int i = 0; i < loginMenu.length; i++) {
-			System.out.println((i + 1) + ". " + loginMenu[i]);
+		for (int i = 0; i < loginItems.length; i++) {
+			System.out.println((i + 1) + ". " + loginItems[i]);
 		}
 		System.out.println();
 		System.out.print("ログイン方法を選んでください：");
@@ -50,13 +53,110 @@ public class UserView {
 	// ユーザーに関する表示
 	public int userMenu() {
 		System.out.println("===ユーザーメニュー===");
-		for (int i = 0; i < userMenu.length; i++) {
-			System.out.println((i + 1) + ". " + userMenu[i]);
+		for (int i = 0; i < userItems.length; i++) {
+			System.out.println((i + 1) + ". " + userItems[i]);
 		}
 
-		String input = menu.returnMenu();
+		String input = menu.inputMenu();
 
 		return menu.inputCheck(input);
+	}
+
+	// ユーザーIdを入力
+	public int inputUserId() {
+		String input = "";
+		int userId = -1;
+
+		while (userId == -1) {
+			System.out.print("ユーザーIDを入力してください：");
+			input = scan.nextLine();
+			userId = menu.inputCheck(input);
+		}
+
+		return userId;
+	}
+
+	// ユーザーネームを入力
+	public String inputUserName() {
+		String userName = "";
+		while (true) {
+			System.out.print("ユーザーネームを入力してください：");
+			userName = scan.nextLine();
+
+			if (userName.isBlank()) {
+				System.out.println(
+						"ユーザーネームを入力してください。");
+
+				continue;
+			}
+
+			if (userName.length() < 4 || userName.length() >= 20) {
+				System.out.println(
+						"ユーザーネームは4文字以上、20文字未満で入力してください。");
+				continue;
+			}
+			break;
+		}
+		return userName;
+	}
+
+	// メールアドレスを入力
+	public String inputEmail() {
+
+		while (true) {
+
+			System.out.print("メールアドレスを入力してください：");
+			String email = scan.nextLine();
+
+			if (email.isBlank()) {
+				System.out.println(
+						"メールアドレスを入力してください。");
+				continue;
+			}
+
+			if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+				System.out.println(
+						"正しいメールアドレスを入力してください。");
+				continue;
+			}
+
+			return email;
+		}
+	}
+
+	// パスワードを入力
+	public String inputPassword() {
+		String password = "";
+		while (password.isBlank()) {
+			System.out.print("パスワードを入力してください：");
+			password = scan.nextLine();
+		}
+		return password;
+	}
+
+	// ユーザーの削除
+	public int inputDeleteUserId(int userId) {
+
+		while (true) {
+
+			System.out.print("アカウントを削除しますか？[y/n]:");
+			String input = scan.nextLine().trim().toLowerCase();
+
+			if ("y".equals(input)) {
+				return userId;
+			}
+
+			if ("n".equals(input)) {
+				return -1;
+			}
+
+			System.out.println("yまたはnを入力してください。");
+		}
+	}
+
+	// ログインしてるユーザーの情報を取得
+	public UserEntity getLoginUser() {
+		return loginUser;
 	}
 
 	// ユーザーの登録に必要な情報を入力
@@ -89,82 +189,6 @@ public class UserView {
 		System.out.println("=============");
 
 		return userController.login(email, password);
-	}
-
-	// ログインしてるユーザーの情報を取得
-	public UserEntity getLoginUser() {
-		return loginUser;
-	}
-
-	// メールアドレス検索
-	public String searchEmail() {
-		System.out.print("メールアドレスを入力してください：");
-		String email = scan.nextLine();
-		return email;
-	}
-
-	// 本の削除
-	public int inputDeleteUserId(int userId) {
-
-		while (true) {
-
-			System.out.print("アカウントを削除しますか？[y/n]:");
-			String input = scan.nextLine().trim().toLowerCase();
-
-			if ("y".equals(input)) {
-				return userId;
-			}
-
-			if ("n".equals(input)) {
-				return -1;
-			}
-
-			System.out.println("yまたはnを入力してください。");
-		}
-	}
-
-	// ユーザーIdを入力
-	public int inputUserId() {
-		String input = "";
-		int userId = -1;
-
-		while (userId == -1) {
-			System.out.print("ユーザーIDを入力してください：");
-			input = scan.nextLine();
-			userId = menu.inputCheck(input);
-		}
-
-		return userId;
-	}
-
-	// ユーザーネームを入力
-	public String inputUserName() {
-		String userName = "";
-		while (userName.isBlank()) {
-			System.out.print("ユーザーネームを入力してください：");
-			userName = scan.nextLine();
-		}
-		return userName;
-	}
-
-	// メールアドレスを入力
-	public String inputEmail() {
-		String email = "";
-		while (email.isBlank()) {
-			System.out.print("メールアドレスを入力してください：");
-			email = scan.nextLine();
-		}
-		return email;
-	}
-
-	// パスワードを入力
-	public String inputPassword() {
-		String password = "";
-		while (password.isBlank()) {
-			System.out.print("パスワードを入力してください：");
-			password = scan.nextLine();
-		}
-		return password;
 	}
 
 	// ログインのCLI操作

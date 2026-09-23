@@ -15,7 +15,7 @@ public class BookService {
 
 	// 本の登録
 	public void registerBook(int userId, BookEntity book) {
-		bookRepository.regiserBook(userId, book);
+		bookRepository.registerBook(userId, book);
 	}
 
 	// 本の詳細情報を取得
