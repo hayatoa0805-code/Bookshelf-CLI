@@ -17,19 +17,22 @@ public class UserView {
 	private UserEntity loginUser;
 
 	// ログイン方法
-	String[] loginMenu = {
+	String[] loginItems = {
 			"新規登録",
 			"ログイン"
 	};
 
 	// user機能のメニュー
-	String[] userMenu = {
+	String[] userItems = {
 			"ログアウト",
 			"削除",
 	};
 
 	// コンストラクタ
-	public UserView(Scanner scan, Menu menu, UserController userController) {
+	public UserView(
+			Scanner scan,
+			Menu menu,
+			UserController userController) {
 		this.scan = scan;
 		this.menu = menu;
 		this.userController = userController;
@@ -38,8 +41,8 @@ public class UserView {
 	// ログインに関する表示
 	public int loginMenu() {
 		System.out.println("==ログインメニュー==");
-		for (int i = 0; i < loginMenu.length; i++) {
-			System.out.println((i + 1) + ". " + loginMenu[i]);
+		for (int i = 0; i < loginItems.length; i++) {
+			System.out.println((i + 1) + ". " + loginItems[i]);
 		}
 		System.out.println();
 		System.out.print("ログイン方法を選んでください：");
@@ -50,77 +53,13 @@ public class UserView {
 	// ユーザーに関する表示
 	public int userMenu() {
 		System.out.println("===ユーザーメニュー===");
-		for (int i = 0; i < userMenu.length; i++) {
-			System.out.println((i + 1) + ". " + userMenu[i]);
+		for (int i = 0; i < userItems.length; i++) {
+			System.out.println((i + 1) + ". " + userItems[i]);
 		}
 
-		String input = menu.returnMenu();
+		String input = menu.inputMenu();
 
 		return menu.inputCheck(input);
-	}
-
-	// ユーザーの登録に必要な情報を入力
-	public UserEntity registerUser() {
-		System.out.println("==ユーザーの登録==");
-		System.out.println();
-
-		String userName = inputUserName();
-		String email = inputEmail();
-		String password = inputPassword();
-
-		System.out.println();
-		System.out.println("================");
-
-		return new UserEntity(
-				userName,
-				email,
-				password);
-	}
-
-	// ログイン処理
-	public UserEntity login() {
-		System.out.println("===ログイン===");
-		System.out.println();
-
-		String email = inputEmail();
-		String password = inputPassword();
-
-		System.out.println();
-		System.out.println("=============");
-
-		return userController.login(email, password);
-	}
-
-	// ログインしてるユーザーの情報を取得
-	public UserEntity getLoginUser() {
-		return loginUser;
-	}
-
-	// メールアドレス検索
-	public String searchEmail() {
-		System.out.print("メールアドレスを入力してください：");
-		String email = scan.nextLine();
-		return email;
-	}
-
-	// 本の削除
-	public int inputDeleteUserId(int userId) {
-
-		while (true) {
-
-			System.out.print("アカウントを削除しますか？[y/n]:");
-			String input = scan.nextLine().trim().toLowerCase();
-
-			if ("y".equals(input)) {
-				return userId;
-			}
-
-			if ("n".equals(input)) {
-				return -1;
-			}
-
-			System.out.println("yまたはnを入力してください。");
-		}
 	}
 
 	// ユーザーIdを入力
@@ -165,6 +104,63 @@ public class UserView {
 			password = scan.nextLine();
 		}
 		return password;
+	}
+
+	// ユーザーの削除
+	public int inputDeleteUserId(int userId) {
+
+		while (true) {
+
+			System.out.print("アカウントを削除しますか？[y/n]:");
+			String input = scan.nextLine().trim().toLowerCase();
+
+			if ("y".equals(input)) {
+				return userId;
+			}
+
+			if ("n".equals(input)) {
+				return -1;
+			}
+
+			System.out.println("yまたはnを入力してください。");
+		}
+	}
+
+	// ログインしてるユーザーの情報を取得
+	public UserEntity getLoginUser() {
+		return loginUser;
+	}
+
+	// ユーザーの登録に必要な情報を入力
+	public UserEntity registerUser() {
+		System.out.println("==ユーザーの登録==");
+		System.out.println();
+
+		String userName = inputUserName();
+		String email = inputEmail();
+		String password = inputPassword();
+
+		System.out.println();
+		System.out.println("================");
+
+		return new UserEntity(
+				userName,
+				email,
+				password);
+	}
+
+	// ログイン処理
+	public UserEntity login() {
+		System.out.println("===ログイン===");
+		System.out.println();
+
+		String email = inputEmail();
+		String password = inputPassword();
+
+		System.out.println();
+		System.out.println("=============");
+
+		return userController.login(email, password);
 	}
 
 	// ログインのCLI操作
