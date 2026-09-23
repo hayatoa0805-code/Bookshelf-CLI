@@ -163,12 +163,26 @@ public class UserView {
 
 	// メールアドレスを入力
 	public String inputEmail() {
-		String email = "";
-		while (email.isBlank()) {
+
+		while (true) {
+
 			System.out.print("メールアドレスを入力してください：");
-			email = scan.nextLine();
+			String email = scan.nextLine();
+
+			if (email.isBlank()) {
+				System.out.println(
+						"メールアドレスを入力してください。");
+				continue;
+			}
+
+			if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+				System.out.println(
+						"正しいメールアドレスを入力してください。");
+				continue;
+			}
+
+			return email;
 		}
-		return email;
 	}
 
 	// パスワードを入力

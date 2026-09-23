@@ -19,9 +19,10 @@ public class UserService {
 	// ユーザーの登録
 	public void register(UserEntity user) {
 
-		// ユーザーネームの入力制御
 		String userName = user.getName();
+		String email = user.getEmail();
 
+		// ユーザーネームの入力制御
 		if (userName == null || userName.isBlank()) {
 			throw new IllegalArgumentException(
 					"ユーザーネームを入力してください。");
@@ -32,7 +33,18 @@ public class UserService {
 					"ユーザーネームは4文字以上、20文字未満で入力してください。");
 		}
 
-		// 入力されたメールアドレスが登録されているか判定
+		// メールアドレスの入力制御
+
+		if (email == null || email.isBlank()) {
+			throw new IllegalArgumentException(
+					"メールアドレスを入力してください。");
+		}
+
+		if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+			throw new IllegalArgumentException(
+					"正しいメールアドレスを入力してください。");
+		}
+
 		UserEntity existingUser = userRepository.findByEmail(user.getEmail());
 
 		if (existingUser != null) {
