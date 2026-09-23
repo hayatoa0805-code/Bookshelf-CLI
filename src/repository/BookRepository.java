@@ -13,17 +13,18 @@ import entity.BookEntity;
 public class BookRepository {
 
 	// 本の登録
-	public void regiserBook(int userId, BookEntity book) {
+	public void registerBook(int userId, BookEntity book) {
 
 		String sql = """
 				INSERT INTO books(user_id, title, volume, publisher, author)
 				VALUES(?, ?, ?, ?, ?)
+				RETURNING id, book_id
 				""";
+
 		try (
 				Connection connection = DatabaseConnection.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
-						sql,
-						java.sql.Statement.RETURN_GENERATED_KEYS)) {
+						sql)) {
 
 			statement.setInt(1, userId);
 			statement.setString(2, book.getTitle());
@@ -31,12 +32,14 @@ public class BookRepository {
 			statement.setString(4, book.getPublisher());
 			statement.setString(5, book.getAuthor());
 
-			statement.executeUpdate();
-
-			try (java.sql.ResultSet resultSet = statement.getGeneratedKeys()) {
+			try (ResultSet resultSet = statement.executeQuery()) {
 
 				if (resultSet.next()) {
-					int bookId = resultSet.getInt(1);
+
+					int id = resultSet.getInt("id");
+					int bookId = resultSet.getInt("book_id");
+
+					book.setId(id);
 					book.setBookId(bookId);
 				}
 			}
@@ -51,7 +54,7 @@ public class BookRepository {
 		List<BookEntity> result = new ArrayList<>();
 
 		String sql = """
-				SELECT *
+				SELECT book_id, title
 				FROM books
 				WHERE user_id = ?
 				""";
@@ -68,12 +71,8 @@ public class BookRepository {
 
 					BookEntity book = new BookEntity();
 
-					book.setBookId(resultSet.getInt("id"));
-					book.setUserId(resultSet.getInt("user_id"));
+					book.setBookId(resultSet.getInt("book_id"));
 					book.setTitle(resultSet.getString("title"));
-					book.setVolume(resultSet.getString("volume"));
-					book.setPublisher(resultSet.getString("publisher"));
-					book.setAuthor(resultSet.getString("author"));
 
 					result.add(book);
 				}
@@ -89,10 +88,10 @@ public class BookRepository {
 	// ユーザー自身が登録してる本の詳細情報を取得
 	public BookEntity findByUserIdAndBookId(int userId, int bookId) {
 		String sql = """
-				SELECT *
+				SELECT id, user_id, book_id, title, volume, publisher, author
 				FROM books
 				WHERE user_id = ?
-				AND id = ?
+				AND book_id = ?
 				""";
 
 		try (
@@ -108,8 +107,9 @@ public class BookRepository {
 
 					BookEntity book = new BookEntity();
 
-					book.setBookId(resultSet.getInt("id"));
+					book.setId(resultSet.getInt("id"));
 					book.setUserId(resultSet.getInt("user_id"));
+					book.setBookId(resultSet.getInt("book_id"));
 					book.setTitle(resultSet.getString("title"));
 					book.setVolume(resultSet.getString("volume"));
 					book.setPublisher(resultSet.getString("publisher"));
@@ -119,7 +119,6 @@ public class BookRepository {
 
 				}
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -132,9 +131,11 @@ public class BookRepository {
 
 		String sql = """
 				UPDATE books
-				SET title = ?
+				SET
+					title = ?,
+					updated_at = now()
 				WHERE user_id = ?
-				AND id = ?
+				AND book_id = ?
 				""";
 
 		try (
@@ -158,9 +159,11 @@ public class BookRepository {
 
 		String sql = """
 				UPDATE books
-				SET volume = ?
+				SET
+					volume = ?,
+					updated_at = now()
 				WHERE user_id = ?
-				AND id = ?
+				AND book_id = ?
 				""";
 
 		try (
@@ -183,9 +186,11 @@ public class BookRepository {
 
 		String sql = """
 				UPDATE books
-				SET publisher = ?
+				SET
+					publisher = ?,
+					updated_at = now()
 				WHERE user_id = ?
-				AND id = ?
+				AND book_id = ?
 				""";
 
 		try (
@@ -208,9 +213,11 @@ public class BookRepository {
 
 		String sql = """
 				UPDATE books
-				SET author = ?
+				SET
+					author = ?,
+					updated_at = now()
 				WHERE user_id = ?
-				AND id = ?
+				AND book_id = ?
 				""";
 
 		try (
@@ -234,7 +241,7 @@ public class BookRepository {
 		List<BookEntity> books = new ArrayList<>();
 
 		String sql = """
-				SELECT id, user_id, title, volume, publisher, author
+				SELECT id, user_id, book_id, title, volume, publisher, author
 				FROM books
 				WHERE user_id = ?
 				AND title LIKE ?
@@ -254,6 +261,7 @@ public class BookRepository {
 					BookEntity book = new BookEntity(
 							resultSet.getInt("id"),
 							resultSet.getInt("user_id"),
+							resultSet.getInt("book_id"),
 							resultSet.getString("title"),
 							resultSet.getString("volume"),
 							resultSet.getString("publisher"),
@@ -276,7 +284,7 @@ public class BookRepository {
 		List<BookEntity> books = new ArrayList<>();
 
 		String sql = """
-				SELECT id, user_id, title, volume, publisher, author
+				SELECT id, user_id, book_id, title, volume, publisher, author
 				FROM books
 				WHERE user_id = ?
 				AND publisher LIKE ?
@@ -296,6 +304,7 @@ public class BookRepository {
 					BookEntity book = new BookEntity(
 							resultSet.getInt("id"),
 							resultSet.getInt("user_id"),
+							resultSet.getInt("book_id"),
 							resultSet.getString("title"),
 							resultSet.getString("volume"),
 							resultSet.getString("publisher"),
@@ -318,7 +327,7 @@ public class BookRepository {
 		List<BookEntity> books = new ArrayList<>();
 
 		String sql = """
-				SELECT id, user_id, title, volume, publisher, author
+				SELECT id, user_id, book_id, title, volume, publisher, author
 				FROM books
 				WHERE user_id = ?
 				AND author LIKE ?
@@ -338,6 +347,7 @@ public class BookRepository {
 					BookEntity book = new BookEntity(
 							resultSet.getInt("id"),
 							resultSet.getInt("user_id"),
+							resultSet.getInt("book_id"),
 							resultSet.getString("title"),
 							resultSet.getString("volume"),
 							resultSet.getString("publisher"),
@@ -354,13 +364,13 @@ public class BookRepository {
 		return books;
 	}
 
-	//　ユーザー自身が登録してる本を削除
-	public void delete(int userId, int id) {
+	//　ユーザー自身が登録してる本を物理削除
+	public void delete(int userId, int bookId) {
 
 		String sql = """
 				DELETE FROM books
 				WHERE user_id = ?
-				AND id = ?
+				AND book_id = ?
 				""";
 
 		try (
@@ -368,7 +378,7 @@ public class BookRepository {
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 
 			statement.setInt(1, userId);
-			statement.setInt(2, id);
+			statement.setInt(2, bookId);
 
 			statement.executeUpdate();
 

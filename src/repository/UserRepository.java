@@ -14,7 +14,7 @@ public class UserRepository {
 	public void register(UserEntity user) {
 
 		String sql = """
-				INSERT INTO users (name, email, password_hash)
+				INSERT INTO users (display_name, email, password_hash)
 				VALUES( ?, ?, ?)
 				""";
 
@@ -47,7 +47,7 @@ public class UserRepository {
 	public UserEntity findByEmail(String email) {
 
 		String sql = """
-				SELECT id, name, email, password_hash, created_at, deleted_at, is_active
+				SELECT id, display_name, email, password_hash, created_at, deleted_at, is_active
 				FROM users
 				WHERE email = ?
 				""";
@@ -64,7 +64,7 @@ public class UserRepository {
 					UserEntity user = new UserEntity();
 
 					user.setUserId(resultSet.getInt("id"));
-					user.setName(resultSet.getString("name"));
+					user.setName(resultSet.getString("display_name"));
 					user.setEmail(resultSet.getString("email"));
 					user.setPasswordHash(resultSet.getString("password_hash"));
 					user.setCreated_at(
@@ -84,12 +84,16 @@ public class UserRepository {
 		return null;
 	}
 
-	// ユーザー削除
 	public void delete(int userId) {
 
 		String sql = """
-				DELETE FROM users
+				UPDATE users
+				SET
+				    is_active = false,
+				    updated_at = now(),
+				    deleted_at = now()
 				WHERE id = ?
+				AND is_active = true
 				""";
 
 		try (
@@ -97,12 +101,11 @@ public class UserRepository {
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 
 			statement.setInt(1, userId);
-
 			statement.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
