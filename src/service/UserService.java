@@ -19,9 +19,22 @@ public class UserService {
 	// ユーザーの登録
 	public void register(UserEntity user) {
 
+		// ユーザーネームの入力制御
+		String userName = user.getName();
+
+		if (userName == null || userName.isBlank()) {
+			throw new IllegalArgumentException(
+					"ユーザーネームを入力してください。");
+		}
+
+		if (userName.length() < 4 || userName.length() >= 20) {
+			throw new IllegalArgumentException(
+					"ユーザーネームは4文字以上、20文字未満で入力してください。");
+		}
+
+		// 入力されたメールアドレスが登録されているか判定
 		UserEntity existingUser = userRepository.findByEmail(user.getEmail());
 
-		// 入力されたメールアドレスが登録されてるか判定
 		if (existingUser != null) {
 			throw new IllegalArgumentException(
 					"このメールアドレスはすでに登録されています。");
@@ -30,7 +43,6 @@ public class UserService {
 		// パスワードをハッシュ化
 		String hashedPassword = passwordHasher.hash(user.getPasswordHash());
 		user.setPasswordHash(hashedPassword);
-
 		userRepository.register(user);
 	}
 

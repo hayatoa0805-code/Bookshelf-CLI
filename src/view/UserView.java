@@ -140,9 +140,23 @@ public class UserView {
 	// ユーザーネームを入力
 	public String inputUserName() {
 		String userName = "";
-		while (userName.isBlank()) {
+		while (true) {
 			System.out.print("ユーザーネームを入力してください：");
 			userName = scan.nextLine();
+
+			if (userName.isBlank()) {
+				System.out.println(
+						"ユーザーネームを入力してください。");
+
+				continue;
+			}
+
+			if (userName.length() < 4 || userName.length() >= 20) {
+				System.out.println(
+						"ユーザーネームは4文字以上、20文字未満で入力してください。");
+				continue;
+			}
+			break;
 		}
 		return userName;
 	}
