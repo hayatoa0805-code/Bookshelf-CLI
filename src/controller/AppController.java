@@ -25,7 +25,7 @@ public class AppController {
 		scan = new Scanner(System.in);
 
 		PasswordHasher passwordHasher = new PasswordHasher();
-		this.inputUtil = new InputUtil(scan, menu);
+		this.inputUtil = new InputUtil(scan);
 
 		// User
 		UserRepository userRepository = new UserRepository();
@@ -52,10 +52,13 @@ public class AppController {
 
 		while (isBoot) {
 
+			// ログイン処理
 			userView.showLoginMenu();
 
+			// ログインしてるユーザー情報があればメインメニューの処理を開始
 			while (userView.getLoginUser() != null) {
 
+				// ログインしてるユーザーIDを取得
 				int userId = userView.getLoginUser().getUserId();
 
 				BookView bookView = new BookView(
@@ -69,14 +72,17 @@ public class AppController {
 
 				switch (choice) {
 
+				// User機能
 				case 1:
 					userView.showUserMenu();
 					break;
 
+				// Book機能
 				case 2:
 					bookView.showBookMenu();
 					break;
 
+				// アプリ終了
 				case 0:
 					System.out.println("アプリを終了します。");
 					isBoot = false;

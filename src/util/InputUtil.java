@@ -2,19 +2,16 @@ package util;
 
 import java.util.Scanner;
 
-import view.Menu;
-
 public class InputUtil {
 	private Scanner scan;
 
 	// コンストラクタ
 	public InputUtil(
-			Scanner scan,
-			Menu menu) {
+			Scanner scan) {
 		this.scan = scan;
 	}
 
-	// Menu
+	// 共通処理s
 	// 受け取った入力を整数に変換できるか確認
 	public int inputCheck(String input) {
 		try {
@@ -26,6 +23,9 @@ public class InputUtil {
 		}
 	}
 
+	// Menu
+
+	// メニュー選択時の入力受け取り
 	public String inputMenuChoice() {
 		String input = scan.nextLine();
 		return input;
@@ -128,7 +128,7 @@ public class InputUtil {
 
 	// Book
 
-	// タイトル入力
+	// タイトルを入力
 	public String inputTitle() {
 
 		String title = "";
@@ -154,7 +154,7 @@ public class InputUtil {
 		return volume;
 	}
 
-	// 出版社入力
+	// 出版社を入力
 	public String inputPublisher() {
 
 		String publisher = "";
