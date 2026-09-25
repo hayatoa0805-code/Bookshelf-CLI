@@ -6,6 +6,7 @@ import repository.BookRepository;
 import repository.UserRepository;
 import service.BookService;
 import service.UserService;
+import util.InputUtil;
 import util.PasswordHasher;
 import view.BookView;
 import view.Menu;
@@ -17,12 +18,14 @@ public class AppController {
 	private Menu menu;
 	private UserView userView;
 	private BookController bookController;
+	private InputUtil inputUtil;
 
 	public AppController() {
 
 		scan = new Scanner(System.in);
 
 		PasswordHasher passwordHasher = new PasswordHasher();
+		this.inputUtil = new InputUtil(scan, menu);
 
 		// User
 		UserRepository userRepository = new UserRepository();
@@ -35,11 +38,12 @@ public class AppController {
 		bookController = new BookController(bookService);
 
 		// Menu
-		menu = new Menu(scan);
+		menu = new Menu(inputUtil);
 		userView = new UserView(
 				scan,
 				menu,
-				userController);
+				userController,
+				inputUtil);
 	}
 
 	public void start() {
@@ -58,6 +62,7 @@ public class AppController {
 						scan,
 						menu,
 						bookController,
+						inputUtil,
 						userId);
 
 				int choice = menu.mainMenu();

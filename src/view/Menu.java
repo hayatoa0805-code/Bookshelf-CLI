@@ -1,12 +1,13 @@
 package view;
 
-import java.util.Scanner;
+import util.InputUtil;
 
 public class Menu {
-	private Scanner scan;
+	private InputUtil inputUtil;
 
-	public Menu(Scanner scan) {
-		this.scan = scan;
+	public Menu(
+			InputUtil inputUtil) {
+		this.inputUtil = inputUtil;
 	}
 
 	// アプリ起動して、最初に表示するメニュー
@@ -14,23 +15,6 @@ public class Menu {
 			"ユーザー管理",
 			"本の管理",
 	};
-
-	public int inputCheck(String input) {
-		try {
-			return Integer.parseInt(input);
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-	}
-
-	public String inputMenu() {
-		System.out.println();
-		System.out.println("0. 戻る");
-		System.out.print("選択してください：");
-		String input = scan.nextLine();
-
-		return input;
-	}
 
 	public int mainMenu() {
 
@@ -43,9 +27,9 @@ public class Menu {
 			System.out.println("0. アプリ終了");
 			System.out.print("選択してください：");
 
-			String num = scan.nextLine();
+			String num = inputUtil.inputMenuChoice();
 
-			int choice = inputCheck(num);
+			int choice = inputUtil.inputCheck(num);
 
 			if (0 <= choice && choice <= mainItems.length) {
 				return choice;

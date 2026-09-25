@@ -4,14 +4,15 @@ import java.util.Scanner;
 
 import controller.UserController;
 import entity.UserEntity;
+import util.InputUtil;
 
 public class UserView {
-	private Scanner scan;
 	boolean isLogin = false;
 
 	// MenuからScanner,UserControllerを設定
 	private UserController userController;
 	private Menu menu;
+	private InputUtil inputUtil;
 
 	// 現在ログインしてるユーザー
 	private UserEntity loginUser;
@@ -32,10 +33,11 @@ public class UserView {
 	public UserView(
 			Scanner scan,
 			Menu menu,
-			UserController userController) {
-		this.scan = scan;
+			UserController userController,
+			InputUtil inputUtil) {
 		this.menu = menu;
 		this.userController = userController;
+		this.inputUtil = inputUtil;
 	}
 
 	// ログインに関する表示
@@ -46,8 +48,8 @@ public class UserView {
 		}
 		System.out.println();
 		System.out.print("ログイン方法を選んでください：");
-		String input = scan.nextLine();
-		return menu.inputCheck(input);
+		String input = inputUtil.inputMenuChoice();
+		return inputUtil.inputCheck(input);
 	}
 
 	// ユーザーに関する表示
@@ -56,103 +58,12 @@ public class UserView {
 		for (int i = 0; i < userItems.length; i++) {
 			System.out.println((i + 1) + ". " + userItems[i]);
 		}
+		System.out.println();
+		System.out.println("0. 戻る");
+		System.out.print("選択してください：");
+		String input = inputUtil.inputMenuChoice();
 
-		String input = menu.inputMenu();
-
-		return menu.inputCheck(input);
-	}
-
-	// ユーザーIdを入力
-	public int inputUserId() {
-		String input = "";
-		int userId = -1;
-
-		while (userId == -1) {
-			System.out.print("ユーザーIDを入力してください：");
-			input = scan.nextLine();
-			userId = menu.inputCheck(input);
-		}
-
-		return userId;
-	}
-
-	// ユーザーネームを入力
-	public String inputUserName() {
-		String userName = "";
-
-		while (true) {
-			System.out.print("ユーザーネームを入力してください：");
-			userName = scan.nextLine();
-
-			if (userName.isBlank()) {
-				System.out.println(
-						"ユーザーネームを入力してください。");
-
-				continue;
-			}
-
-			if (userName.length() < 4 || userName.length() >= 20) {
-				System.out.println(
-						"ユーザーネームは4文字以上、20文字未満で入力してください。");
-				continue;
-			}
-			break;
-		}
-		return userName;
-	}
-
-	// メールアドレスを入力
-	public String inputEmail() {
-
-		while (true) {
-
-			System.out.print("メールアドレスを入力してください：");
-			String email = scan.nextLine();
-
-			if (email.isBlank()) {
-				System.out.println(
-						"メールアドレスを入力してください。");
-				continue;
-			}
-
-			if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
-				System.out.println(
-						"正しいメールアドレスを入力してください。");
-				continue;
-			}
-
-			return email;
-		}
-	}
-
-	// パスワードを入力
-	public String inputPassword() {
-		String password = "";
-		while (password.isBlank()) {
-			System.out.print("パスワードを入力してください：");
-			password = scan.nextLine();
-		}
-		return password;
-	}
-
-	// ユーザーの削除
-	public int inputDeleteUserId(int userId) {
-
-		while (true) {
-
-			System.out.print("アカウントを削除しますか？[y/n]:");
-			String input = scan.nextLine().trim().toLowerCase();
-
-			if ("y".equals(input)) {
-				return userId;
-			}
-
-			if ("n".equals(input)) {
-				return -1;
-			}
-
-			System.out.println("yまたはnを入力してください。");
-		}
+		return inputUtil.inputCheck(input);
 	}
 
 	// ログインしてるユーザーの情報を取得
@@ -165,9 +76,9 @@ public class UserView {
 		System.out.println("==ユーザーの登録==");
 		System.out.println();
 
-		String userName = inputUserName();
-		String email = inputEmail();
-		String password = inputPassword();
+		String userName = inputUtil.inputUserName();
+		String email = inputUtil.inputEmail();
+		String password = inputUtil.inputPassword();
 
 		System.out.println();
 		System.out.println("================");
@@ -183,8 +94,8 @@ public class UserView {
 		System.out.println("===ログイン===");
 		System.out.println();
 
-		String email = inputEmail();
-		String password = inputPassword();
+		String email = inputUtil.inputEmail();
+		String password = inputUtil.inputPassword();
 
 		System.out.println();
 		System.out.println("=============");
@@ -277,7 +188,7 @@ public class UserView {
 					return;
 				}
 
-				int userId = inputDeleteUserId(loginUser.getUserId());
+				int userId = inputUtil.inputDeleteUser(loginUser.getUserId());
 
 				if (userId != -1) {
 					userController.delete(userId);

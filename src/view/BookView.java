@@ -5,13 +5,14 @@ import java.util.Scanner;
 
 import controller.BookController;
 import entity.BookEntity;
+import util.InputUtil;
 
 public class BookView {
 	private Scanner scan;
 
 	private int userId;
 	private BookController bookController;
-	private Menu menu;
+	private InputUtil inputUtil;
 
 	// book機能のメニュー
 	String[] bookItems = {
@@ -42,11 +43,12 @@ public class BookView {
 			Scanner scan,
 			Menu menu,
 			BookController bookController,
+			InputUtil inputUtil,
 			int userId) {
 
 		this.scan = scan;
-		this.menu = menu;
 		this.bookController = bookController;
+		this.inputUtil = inputUtil;
 		this.userId = userId;
 	}
 
@@ -56,9 +58,11 @@ public class BookView {
 		for (int i = 0; i < bookItems.length; i++) {
 			System.out.println((i + 1) + ". " + bookItems[i]);
 		}
-
-		String input = menu.inputMenu();
-		return menu.inputCheck(input);
+		System.out.println();
+		System.out.println("0. 戻る");
+		System.out.print("選択してください：");
+		String input = inputUtil.inputMenuChoice();
+		return inputUtil.inputCheck(input);
 	}
 
 	// 検索する項目表示
@@ -66,9 +70,12 @@ public class BookView {
 		for (int i = 0; i < searchItems.length; i++) {
 			System.out.println((i + 1) + ". " + searchItems[i]);
 		}
-		String input = menu.inputMenu();
+		System.out.println();
+		System.out.println("0. 戻る");
+		System.out.print("検索する項目をえらんでください：");
+		String input = inputUtil.inputMenuChoice();
 
-		return menu.inputCheck(input);
+		return inputUtil.inputCheck(input);
 	}
 
 	// 編集する項目表示
@@ -77,83 +84,12 @@ public class BookView {
 			System.out.println((i + 1) + ". " + editItems[i]);
 		}
 
-		String bookId = menu.inputMenu();
+		System.out.println();
+		System.out.println("0. 戻る");
+		System.out.print("編集する項目をえらんでください：");
+		String bookId = inputUtil.inputMenuChoice();
 
-		return menu.inputCheck(bookId);
-	}
-
-	// 編集する本のIDを入力
-	public int inputEditBookId() {
-		int bookId = -1;
-		while (bookId <= 0) {
-			System.out.print("編集する本のIDを入力してください：");
-			String input = scan.nextLine();
-			bookId = menu.inputCheck(input);
-		}
-		return bookId;
-	}
-
-	// タイトル入力
-	public String inputTitle() {
-
-		String title = "";
-
-		while (title.isBlank()) {
-			System.out.print("タイトルを入力してください：");
-			title = scan.nextLine();
-		}
-
-		return title;
-	}
-
-	// 本の巻数を入力
-	public String inputVolume() {
-
-		String volume = "";
-
-		while (volume.isBlank()) {
-			System.out.print("巻数を入力してください：");
-			volume = scan.nextLine();
-		}
-
-		return volume;
-	}
-
-	// 出版社入力
-	public String inputPublisher() {
-
-		String publisher = "";
-
-		while (publisher.isBlank()) {
-			System.out.print("出版社を入力してください：");
-			publisher = scan.nextLine();
-		}
-
-		return publisher;
-	}
-
-	// 著者を入力
-	public String inputAuthor() {
-
-		String author = "";
-
-		while (author.isBlank()) {
-			System.out.print("著者を入力してください：");
-			author = scan.nextLine();
-		}
-
-		return author;
-	}
-
-	// 削除する本のIDを入力
-	public int inputDeleteBookId() {
-		int bookId = -1;
-		while (bookId <= 0) {
-			System.out.print("削除する本のIDを入力してください：");
-			String input = scan.nextLine();
-			bookId = menu.inputCheck(input);
-		}
-		return bookId;
+		return inputUtil.inputCheck(bookId);
 	}
 
 	// 本が登録されていなかった場合の出力
@@ -161,6 +97,48 @@ public class BookView {
 		System.out.println();
 		System.out.println("指定された本はありません。");
 		System.out.println();
+	}
+
+	public void searchBook() {
+
+		// 検索する項目を選択
+		int searchItem = searchMenu();
+
+		while (true) {
+			switch (searchItem) {
+
+			// タイトル検索
+			case 1: {
+				String title = inputUtil.inputTitle();
+				List<BookEntity> titleBooks = bookController.searchByTitle(userId, title);
+				displayBooks(titleBooks);
+				break;
+			}
+
+			// 出版社検索
+			case 2: {
+				String publisher = inputUtil.inputPublisher();
+				List<BookEntity> publisherBooks = bookController.searchByPublisher(userId, publisher);
+				displayBooks(publisherBooks);
+
+				break;
+			}
+
+			// 著者検索
+			case 3: {
+				String author = inputUtil.inputAuthor();
+				List<BookEntity> authorBooks = bookController.searchByAuthor(userId, author);
+				displayBooks(authorBooks);
+
+				break;
+			}
+
+			default:
+				System.out.println("正しい番号を入力してください：");
+				break;
+			}
+			break;
+		}
 	}
 
 	// 本の編集処理
@@ -175,28 +153,28 @@ public class BookView {
 
 			// タイトル
 			case 1: {
-				String title = inputTitle();
+				String title = inputUtil.inputTitle();
 				bookController.editTitle(userId, editBookId, title);
 				break;
 			}
 
 			// 巻数
 			case 2: {
-				String volume = inputVolume();
+				String volume = inputUtil.inputVolume();
 				bookController.editVolume(userId, editBookId, volume);
 				break;
 			}
 
 			// 出版社
 			case 3: {
-				String publisher = inputPublisher();
+				String publisher = inputUtil.inputPublisher();
 				bookController.editPublisher(userId, editBookId, publisher);
 				break;
 			}
 
 			// 著者
 			case 4: {
-				String author = inputAuthor();
+				String author = inputUtil.inputAuthor();
 				bookController.editAuthor(userId, editBookId, author);
 				break;
 			}
@@ -206,8 +184,27 @@ public class BookView {
 
 			default:
 				System.out.println("正しい番号を入力してください。");
+				break;
 			}
 		}
+	}
+
+	// 指定の本のIDがあるか判定
+	public BookEntity isBook(int bookId) {
+		// 入力が正の整数ではなかった場合
+		if (bookId < 0) {
+			System.out.println("正しい本のIDを入力してください。");
+			return null;
+		}
+		BookEntity detailBook = bookController.findByUserIdAndBookId(userId, bookId);
+
+		// 指定の本が見つからなかった場合
+		if (detailBook == null) {
+			System.out.println("指定した本が見つかりません。");
+			return null;
+		}
+
+		return detailBook;
 	}
 
 	// 本の一覧表示
@@ -231,25 +228,37 @@ public class BookView {
 		}
 		System.out.println();
 		System.out.println("=======================");
+
 	}
 
 	// 本の詳細表示
 	public void detailBook(BookEntity book) {
 
-		// 本がない場合
 		if (book == null) {
+
+			// 本がない場合
 			nullDisplay();
-			return;
+		} else {
+
+			// 本がある場合
+			System.out.println("-------詳細------");
+			System.out.println("　I　D　：" + book.getId());
+			System.out.println("タイトル：" + book.getTitle());
+			System.out.println("巻　　数：" + book.getVolume());
+			System.out.println("出 版 社：" + book.getPublisher());
+			System.out.println("著　　者：" + book.getAuthor());
+			System.out.println("----------------");
 		}
 
-		// 本がある場合
-		System.out.println("-------詳細------");
-		System.out.println("　I　D　：" + book.getId());
-		System.out.println("タイトル：" + book.getTitle());
-		System.out.println("巻　　数：" + book.getVolume());
-		System.out.println("出 版 社：" + book.getPublisher());
-		System.out.println("著　　者：" + book.getAuthor());
-		System.out.println("----------------");
+		boolean back = false;
+		while (!back) {
+			System.out.print("yを入力するとメニューに戻ります：");
+			String returnMenu = scan.nextLine();
+			if ("y".equals(returnMenu)) {
+				back = true;
+				break;
+			}
+		}
 	}
 
 	// 本の登録に必要な情報を入力
@@ -287,63 +296,34 @@ public class BookView {
 			// 一覧表示
 			case 1:
 				List<BookEntity> books = bookController.findByUserId(userId);
+				int bookId = -1;
 
 				displayBooks(books);
-				System.out.print("詳細を見たい本のIDまたはyを入力してください：");
-				String seachBookId = scan.nextLine();
+				while (bookId <= 0) {
+					System.out.print("詳細を見たい本のIDまたはyを入力してください：");
+					String seachBookId = scan.nextLine();
 
-				// 機能メニューに戻る
-				if ("y".equals(seachBookId)) {
-					break;
-				}
-				// 本の詳細表示
-				else {
-					int bookId = Integer.parseInt(seachBookId);
-					BookEntity detailbook = bookController.findByUserIdAndBookId(userId, bookId);
-					detailBook(detailbook);
+					// 機能メニューに戻る
+					if ("y".equals(seachBookId)) {
+						break;
+					}
+					// 本の詳細表示
+					else {
+						// 入力を整数に変換
+						bookId = inputUtil.inputCheck(seachBookId);
+						BookEntity book = isBook(bookId);
+
+						if (book != null) {
+							detailBook(book);
+						}
+					}
 				}
 
 				break;
 
 			// 本の検索
 			case 2: {
-				// 検索する項目を選択
-				int searchItem = searchMenu();
-				switch (searchItem) {
-
-				// タイトル検索
-				case 1: {
-					String title = inputTitle();
-					List<BookEntity> titleBooks = bookController.searchByTitle(userId, title);
-					displayBooks(titleBooks);
-
-					menu.inputMenu();
-					break;
-				}
-
-				// 出版社検索
-				case 2: {
-					String publisher = inputPublisher();
-					List<BookEntity> publisherBooks = bookController.searchByPublisher(userId, publisher);
-					displayBooks(publisherBooks);
-
-					menu.inputMenu();
-					break;
-				}
-
-				// 著者検索
-				case 3: {
-					String author = inputAuthor();
-					List<BookEntity> authorBooks = bookController.searchByAuthor(userId, author);
-					displayBooks(authorBooks);
-
-					menu.inputMenu();
-					break;
-				}
-
-				default:
-					System.out.println("正しい番号を入力してください：");
-				}
+				searchBook();
 				break;
 			}
 
@@ -356,13 +336,13 @@ public class BookView {
 
 			// 本の編集
 			case 4:
-				int editBookId = inputEditBookId();
+				int editBookId = inputUtil.inputBookId();
 				editBook(editBookId);
 				break;
 
 			// 本の削除
 			case 5:
-				int deleteBookId = inputDeleteBookId();
+				int deleteBookId = inputUtil.inputBookId();
 
 				bookController.deleteBook(userId, deleteBookId);
 
@@ -376,6 +356,7 @@ public class BookView {
 
 			default:
 				System.out.println("正しい番号を入力してください。");
+				break;
 			}
 		}
 	}
