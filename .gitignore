@@ -20,3 +20,6 @@ build/
 
 # Maven
 target/
+
+# Project
+src/db/DatabaseConnection.java
