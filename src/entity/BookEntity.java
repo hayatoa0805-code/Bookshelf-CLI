@@ -104,4 +104,5 @@ public class BookEntity {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
 }

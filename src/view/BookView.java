@@ -280,7 +280,9 @@ public class BookView {
 
 		return new BookEntity(
 				userId,
-				userId, userId, title,
+				userId,
+				userId,
+				title,
 				volume,
 				publisher,
 				author);

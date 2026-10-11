@@ -4,13 +4,16 @@ import java.util.Scanner;
 
 import repository.BookRepository;
 import repository.UserRepository;
+import repository.WishListRepository;
 import service.BookService;
 import service.UserService;
+import service.WishListService;
 import util.InputUtil;
 import util.PasswordHasher;
 import view.BookView;
 import view.Menu;
 import view.UserView;
+import view.WishListView;
 
 public class AppController {
 
@@ -18,6 +21,7 @@ public class AppController {
 	private Menu menu;
 	private UserView userView;
 	private BookController bookController;
+	private WishListController wishListController;
 	private InputUtil inputUtil;
 
 	public AppController() {
@@ -36,6 +40,11 @@ public class AppController {
 		BookRepository bookRepository = new BookRepository();
 		BookService bookService = new BookService(bookRepository);
 		bookController = new BookController(bookService);
+
+		// WishLlist
+		WishListRepository wishListRepository = new WishListRepository();
+		WishListService wishListService = new WishListService(wishListRepository);
+		wishListController = new WishListController(wishListService);
 
 		// Menu
 		menu = new Menu(inputUtil);
@@ -68,6 +77,14 @@ public class AppController {
 						inputUtil,
 						userId);
 
+				WishListView wishListView = new WishListView(
+						scan,
+						wishListController,
+						bookView,
+						bookController,
+						inputUtil,
+						userId);
+
 				int choice = menu.mainMenu();
 
 				switch (choice) {
@@ -82,11 +99,15 @@ public class AppController {
 					bookView.showBookMenu();
 					break;
 
+				case 3:
+					wishListView.showWishListMenu();
+					break;
+
 				// アプリ終了
 				case 0:
 					System.out.println("アプリを終了します。");
 					isBoot = false;
-					break;
+					return;
 
 				default:
 					System.out.println("正しい数字を入力してください。");

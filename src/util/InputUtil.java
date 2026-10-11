@@ -192,4 +192,16 @@ public class InputUtil {
 		}
 		return bookId;
 	}
+
+	// WishList
+	public String inputWishText() {
+		String wishText = "";
+
+		while (wishText.isBlank()) {
+			System.out.print("テキストを入力してください：");
+			wishText = scan.nextLine();
+		}
+
+		return wishText;
+	}
 }

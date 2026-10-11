@@ -14,6 +14,7 @@ public class Menu {
 	String[] mainItems = {
 			"ユーザー管理",
 			"本の管理",
+			"欲しい本リスト",
 	};
 
 	public int mainMenu() {

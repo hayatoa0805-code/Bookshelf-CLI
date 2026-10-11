@@ -352,7 +352,6 @@ public class BookRepository {
 							resultSet.getString("volume"),
 							resultSet.getString("publisher"),
 							resultSet.getString("author"));
-
 					books.add(book);
 				}
 			}
