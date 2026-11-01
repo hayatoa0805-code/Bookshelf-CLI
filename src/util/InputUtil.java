@@ -192,4 +192,27 @@ public class InputUtil {
 		}
 		return bookId;
 	}
+
+	// WishList
+	public String inputWishText() {
+		String wishText = "";
+
+		while (wishText.isBlank()) {
+			System.out.print("テキストを入力してください：");
+			wishText = scan.nextLine();
+		}
+
+		return wishText;
+	}
+
+	// ISBN入力
+	public String inputISBN() {
+		String isbn = "";
+
+		while (isbn.isBlank() || !isbn.matches("\\d{13}")) {
+			System.out.print("ISBNコードをハイフンなしの13桁で入力してください：");
+			isbn = scan.nextLine();
+		}
+		return isbn;
+	}
 }

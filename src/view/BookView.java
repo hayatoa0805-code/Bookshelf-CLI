@@ -241,13 +241,15 @@ public class BookView {
 		} else {
 
 			// 本がある場合
-			System.out.println("-------詳細------");
-			System.out.println("　I　D　：" + book.getId());
+			System.out.println();
+			System.out.println("ーーーーーーーー詳細ーーーーーーーー");
+			System.out.println("　I　D　：" + book.getBookId());
 			System.out.println("タイトル：" + book.getTitle());
 			System.out.println("巻　　数：" + book.getVolume());
 			System.out.println("出 版 社：" + book.getPublisher());
 			System.out.println("著　　者：" + book.getAuthor());
-			System.out.println("----------------");
+			System.out.println("ーーーーーーーーーーーーーーーーーー");
+			System.out.println();
 		}
 
 		boolean back = false;
@@ -266,21 +268,22 @@ public class BookView {
 		System.out.println("==本の登録==");
 		System.out.println();
 
-		System.out.print("タイトル：");
-		String title = scan.nextLine();
+		String isbn = inputUtil.inputISBN();
 
-		System.out.print("巻数：");
-		String volume = scan.nextLine();
+		String title = inputUtil.inputTitle();
 
-		System.out.print("出版社：");
-		String publisher = scan.nextLine();
+		String volume = inputUtil.inputVolume();
 
-		System.out.print("著者：");
-		String author = scan.nextLine();
+		String publisher = inputUtil.inputPublisher();
+
+		String author = inputUtil.inputAuthor();
 
 		return new BookEntity(
+				0,
 				userId,
-				userId, userId, title,
+				0,
+				isbn,
+				title,
 				volume,
 				publisher,
 				author);
