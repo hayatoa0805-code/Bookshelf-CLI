@@ -11,7 +11,6 @@ public class UserView {
 
 	// MenuからScanner,UserControllerを設定
 	private UserController userController;
-	private Menu menu;
 	private InputUtil inputUtil;
 
 	// 現在ログインしてるユーザー
@@ -32,10 +31,8 @@ public class UserView {
 	// コンストラクタ
 	public UserView(
 			Scanner scan,
-			Menu menu,
 			UserController userController,
 			InputUtil inputUtil) {
-		this.menu = menu;
 		this.userController = userController;
 		this.inputUtil = inputUtil;
 	}

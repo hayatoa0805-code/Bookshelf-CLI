@@ -50,7 +50,6 @@ public class AppController {
 		menu = new Menu(inputUtil);
 		userView = new UserView(
 				scan,
-				menu,
 				userController,
 				inputUtil);
 	}
