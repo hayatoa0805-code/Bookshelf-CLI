@@ -4,6 +4,7 @@ CREATE TABLE books (
     user_id BIGINT NOT NULL,
     book_id BIGINT NOT NULL,
     
+    isbn VARCHAR(20) NOT NULL,
     title VARCHAR(255) NOT NULL,
     volume VARCHAR(100) NOT NULL,
     publisher VARCHAR(100) NOT NULL,

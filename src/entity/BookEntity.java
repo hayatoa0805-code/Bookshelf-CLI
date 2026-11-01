@@ -4,6 +4,7 @@ public class BookEntity {
 	private int id;
 	private int userId;
 	private int bookId;
+	private String isbn;
 	private String title;
 	private String volume;
 	private String publisher;
@@ -13,28 +14,12 @@ public class BookEntity {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
 
-	// idなし
-	public BookEntity(
-			int userId,
-			int bookId,
-			String title,
-			String volume,
-			String publisher,
-			String author) {
-
-		this.userId = userId;
-		this.bookId = bookId;
-		this.title = title;
-		this.volume = volume;
-		this.publisher = publisher;
-		this.author = author;
-	}
-
-	// idあり
+	// DBからデータを取得
 	public BookEntity(
 			int id,
 			int userId,
 			int bookId,
+			String isbn,
 			String title,
 			String volume,
 			String publisher,
@@ -43,6 +28,24 @@ public class BookEntity {
 		this.id = id;
 		this.userId = userId;
 		this.bookId = bookId;
+		this.isbn = isbn;
+		this.title = title;
+		this.volume = volume;
+		this.publisher = publisher;
+		this.author = author;
+	}
+
+	// 登録時用コンストラクタ
+	public BookEntity(
+			int userId,
+			String isbn,
+			String title,
+			String volume,
+			String publisher,
+			String author) {
+
+		this.userId = userId;
+		this.isbn = isbn;
 		this.title = title;
 		this.volume = volume;
 		this.publisher = publisher;
@@ -59,6 +62,10 @@ public class BookEntity {
 
 	public int getBookId() {
 		return bookId;
+	}
+
+	public String getISBN() {
+		return isbn;
 	}
 
 	public String getTitle() {
@@ -103,6 +110,10 @@ public class BookEntity {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public void setISBN(String isbn) {
+		this.isbn = isbn;
 	}
 
 }

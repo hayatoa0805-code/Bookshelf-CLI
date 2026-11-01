@@ -204,4 +204,15 @@ public class InputUtil {
 
 		return wishText;
 	}
+
+	// ISBN入力
+	public String inputISBN() {
+		String isbn = "";
+
+		while (isbn.isBlank() || !isbn.matches("\\d{13}")) {
+			System.out.print("ISBNコードをハイフンなしの13桁で入力してください：");
+			isbn = scan.nextLine();
+		}
+		return isbn;
+	}
 }
